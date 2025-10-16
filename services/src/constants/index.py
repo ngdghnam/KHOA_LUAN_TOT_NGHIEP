@@ -1,0 +1,7 @@
+CREATE_SUCCESS = "Tạo mới thành công"
+UPDATE_SUCCESS = "Cập nhật thành công"
+UPDATE_ACTIVE = "Cập nhật trạng thái thành công"
+DELETE_SUCCESS = "Xóa thành công"
+ERROR_DUPLICATE_DATA = "Dữ liệu đã tồn tại"
+ERROR_DATA_NOT_FOUND = "Dữ liệu không tồn tại"
+ERROR_DATA_INVALID = "Dữ liệu không hợp lệ"

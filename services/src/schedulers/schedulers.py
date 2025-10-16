@@ -1,2 +1,2 @@
-class Schedulers: 
+class Scheduler:
     pass

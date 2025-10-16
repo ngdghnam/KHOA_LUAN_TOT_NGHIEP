@@ -1,4 +1,6 @@
 from pydantic import BaseModel
 
 class PaginationDto(BaseModel): 
-    pass
+    where: dict
+    skip: int
+    take: int

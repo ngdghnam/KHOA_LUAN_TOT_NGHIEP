@@ -18,3 +18,4 @@ seaborn
 scikit-learn
 vnstock
 requests
+minio
