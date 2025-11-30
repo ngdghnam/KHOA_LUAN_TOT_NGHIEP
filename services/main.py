@@ -23,7 +23,7 @@ sql_injection_middleware.add(app)
     
 @app.get("/")
 def readRoot(request: Request): 
-    return {"message": "Welcome to my website", "Information": info}
+    return {"message": "Welcome to our website", "Information": info}
 
 
 if __name__ == "__main__":

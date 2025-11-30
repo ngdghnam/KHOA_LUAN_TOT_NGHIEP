@@ -17,7 +17,7 @@ class BaseRepository(ABC):
         pass
 
     @abstractmethod
-    def findOne(self):
+    def findOne(self, options: dict):
         pass
 
     @abstractmethod

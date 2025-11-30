@@ -5,15 +5,23 @@ class BaseService(ABC):
         pass
 
     @abstractmethod
-    async def post(): 
+    async def create(): 
         pass
 
     @abstractmethod
-    async def get():
+    async def find():
         pass
 
     @abstractmethod
-    async def put():
+    async def findOne():
+        pass
+
+    @abstractmethod
+    async def findAll():
+        pass
+
+    @abstractmethod
+    async def update():
         pass
 
     @abstractmethod
