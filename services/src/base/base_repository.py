@@ -12,7 +12,8 @@ class BaseRepository(ABC, Generic[T]):
     def __init__(self, model: type[T], session: AsyncSession) -> None:
         self.model = model
         self.session = session
-        
+
+    #region CRUD    
     async def create(self, data: Dict[str, Any]) -> T:
         entity = self.model(**data)
         self.session.add(entity)
@@ -27,7 +28,7 @@ class BaseRepository(ABC, Generic[T]):
         entity = result.scalar_one()
         return entity
 
-    async def delete(self):
+    async def delete(self, id: str):
         stmt = delete(self.model).where(self.model.id == id)
         result = await self.session.execute(stmt)
         await self.session.commit()
@@ -46,7 +47,15 @@ class BaseRepository(ABC, Generic[T]):
         if result.rowcount > 0:
             return await self.findOne({'where': {'id': id}})
         return None
+    
+    async def save(self, entity: T) -> T:
+        self.session.add(entity)
+        await self.session.commit()
+        await self.session.refresh(entity)
+        return entity
+    #endregion
 
+    #region Find and Pagination
     async def findOne(self, options: Options) -> Optional[T]:
         stmt = select(self.model)
 
@@ -154,9 +163,5 @@ class BaseRepository(ABC, Generic[T]):
         
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
+    #endregion
 
-    async def save(self, entity: T) -> T:
-        self.session.add(entity)
-        await self.session.commit()
-        await self.session.refresh(entity)
-        return entity

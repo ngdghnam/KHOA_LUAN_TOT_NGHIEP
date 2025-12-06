@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from src.middlewares import cors_middleware, logging_middleware, sql_injection_middleware
 from src.database.database import database
+from src.modules.route import register_routes
 
 app: FastAPI = FastAPI()
 
@@ -22,6 +23,8 @@ async def startup():
 @app.get("/")
 def readRoot(request: Request): 
     return {"message": "Welcome to our website", "Information": info}
+
+register_routes(app=app)
 
 
 if __name__ == "__main__":

@@ -20,3 +20,5 @@ requests
 minio
 aiomysql
 asyncmy
+redis 
+fastapi-cache2
