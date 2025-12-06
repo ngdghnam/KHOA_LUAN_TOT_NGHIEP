@@ -1,31 +1,31 @@
 from fastapi import FastAPI, Request
 from src.middlewares import cors_middleware, logging_middleware, sql_injection_middleware
-from src.database.database import database
 from src.modules.route import register_routes
-
-app: FastAPI = FastAPI()
+from src.exceptions.exception import custom_exception_handler
+from fastapi import HTTPException
+from src.config.lifespan import lifespan
 
 info: dict = {
     "version": "1.0.0",
     "author": "Nguyễn Đặng Hoài Nam"
 }
 
+app: FastAPI = FastAPI(lifespan=lifespan)
+
 # Middlewares
 cors_middleware.add(app)
 logging_middleware.add(app)
 sql_injection_middleware.add(app)
-
-# Database connection
-@app.on_event("startup")
-async def startup():
-    await database.check_connection()
     
 @app.get("/")
 def readRoot(request: Request): 
     return {"message": "Welcome to our website", "Information": info}
 
+# Routes
 register_routes(app=app)
 
+# Exception
+app.add_exception_handler(HTTPException, custom_exception_handler)
 
 if __name__ == "__main__":
     import uvicorn

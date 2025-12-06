@@ -6,3 +6,4 @@ class CreateUserDto(BaseModel):
     lastName: str 
     firstName: str 
     password: str
+    roleId: str

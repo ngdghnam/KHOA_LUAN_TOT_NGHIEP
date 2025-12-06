@@ -27,6 +27,11 @@ async def getAllUsers(session: AsyncSession = Depends(get_session)):
     service: UserService = UserService(session)
     return await service.findAll()
 
+@router.get("/detail/{id}")
+async def findOne(id: str, session: AsyncSession = Depends(get_session)):
+    service: UserService = UserService(session)
+    return await service.findOne(id)
+
 @router.delete("/delete/{id}")
 async def update_active(id: str, session: AsyncSession = Depends(get_session)):
     service: UserService = UserService(session)

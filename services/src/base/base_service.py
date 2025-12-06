@@ -24,15 +24,15 @@ class BaseService(ABC, Generic[T, CreateDto, UpdateDto]):
 
     @abstractmethod
     async def find(self, options: FindOptions):
-        return await self.baseRepo.find()
+        return await self.baseRepo.find(options)
 
     @abstractmethod
-    async def findOne(self, options: Options) -> T:
-        return await self.baseRepo.findOne(options)
+    async def findOne(self, data: Dict) -> T:
+        return await self.baseRepo.findOne(data)
 
     @abstractmethod
-    async def findAll(self):
-        return await self.baseRepo.find({})
+    async def findAll(self, options: Optional[Dict[str, Any]] = None):
+        return await self.baseRepo.find(options)
 
     @abstractmethod
     async def update(self, id: str, data: UpdateDto) -> T:

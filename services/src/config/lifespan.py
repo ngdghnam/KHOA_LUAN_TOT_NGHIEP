@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-
+from src.database.database import database
 from fastapi import FastAPI
 
 # from db import context
@@ -16,6 +16,7 @@ async def lifespan(app: FastAPI):
     
     # fx db initialization
     # context.init()
+    await database.check_connection()
     
     # before start
     yield

@@ -18,7 +18,7 @@ class Database:
         
         self.engine = create_async_engine(
             self.DATABASE_URL,
-            echo=True,
+            echo=False,
             # pool_pre_ping=True,
             # pool_recycle=3600,
         )
