@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings 
+from pathlib import Path
 
 class Settings(BaseSettings):
     GOOGLE_CUSTOM_SEARCH_API_KEY: str
@@ -14,6 +15,6 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str
 
     class Config:
-        env_file = "services/.env"
+        env_file = Path(__file__).resolve().parent.parent.parent / ".env"
 
 settings = Settings() 

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from base_repository import BaseRepository
+from .base_repository import BaseRepository
 from typing import TypeVar, Generic
 from .options import *
 
@@ -32,7 +32,7 @@ class BaseService(ABC, Generic[T, CreateDto, UpdateDto]):
 
     @abstractmethod
     async def findAll(self):
-        return await self.baseRepo.find()
+        return await self.baseRepo.find({})
 
     @abstractmethod
     async def update(self, id: str, data: UpdateDto) -> T:
