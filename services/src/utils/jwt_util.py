@@ -4,3 +4,6 @@ class JwtUtils:
 
     def generateToken(self):
         pass
+
+    def verifyToken(self):
+        pass

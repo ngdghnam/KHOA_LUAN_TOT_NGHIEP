@@ -16,6 +16,7 @@ pyngrok
 matplotlib
 seaborn
 scikit-learn
-vnstock
 requests
 minio
+aiomysql
+asyncmy
