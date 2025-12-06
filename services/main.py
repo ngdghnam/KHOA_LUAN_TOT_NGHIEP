@@ -1,25 +1,23 @@
 from fastapi import FastAPI, Request
-from middlewares import cors_middleware
-from middlewares import logging_middleware
-from middlewares import sql_injection_middleware
+from src.middlewares import cors_middleware, logging_middleware, sql_injection_middleware
+from src.database.database import database
 
 app: FastAPI = FastAPI()
 
 info: dict = {
-    "members": [
-        {"name": "Nguyễn Đặng Hoài Nam", "role": "Full Stack Developer"},
-        {"name": "Nguyễn Xuân Quỳnh", "role": "Project Manager"},
-        {"name": "Trần Xuân Hương", "role": "Designer"},
-        {"name": "Trần Xuân Hương", "role": "Designer"},
-        {"name": "Nguyễn Hoàng Hương Giang", "role": "Business Analyst"},
-        {"name": "Lưu Hà Vy", "role": "Product Owner"},
-    ],
-    "Version": "1.0.0"
+    "version": "1.0.0",
+    "author": "Nguyễn Đặng Hoài Nam"
 }
 
+# Middlewares
 cors_middleware.add(app)
 logging_middleware.add(app)
 sql_injection_middleware.add(app)
+
+# Database connection
+@app.on_event("startup")
+async def startup():
+    await database.check_connection()
     
 @app.get("/")
 def readRoot(request: Request): 
@@ -28,4 +26,4 @@ def readRoot(request: Request):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=5000, reload=True)
+    uvicorn.run("main:app", host="localhost", port=5000, reload=True)

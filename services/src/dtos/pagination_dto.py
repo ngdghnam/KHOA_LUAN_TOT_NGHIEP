@@ -1,6 +1,7 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class PaginationDto(BaseModel): 
-    where: dict
-    skip: int
-    take: int
+    where: Optional[dict] = {}
+    skip: Optional[int] = 0 
+    take: Optional[int] = 10

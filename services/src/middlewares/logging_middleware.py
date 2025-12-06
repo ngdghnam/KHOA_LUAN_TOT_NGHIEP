@@ -1,7 +1,7 @@
 from datetime import datetime
 import time  # Import the time module directly
 from starlette.middleware.base import BaseHTTPMiddleware
-from config.logger import logger
+from src.config.logger import logger
 
 from fastapi import Request
 from fastapi import FastAPI
