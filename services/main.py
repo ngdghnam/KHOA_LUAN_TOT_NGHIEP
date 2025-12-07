@@ -4,6 +4,7 @@ from src.modules.route import register_routes
 from src.exceptions.exception import custom_exception_handler
 from fastapi import HTTPException
 from src.config.lifespan import lifespan
+from src.config.minio_config import minio_config
 
 info: dict = {
     "version": "1.0.0",
@@ -23,6 +24,9 @@ def readRoot(request: Request):
 
 # Routes
 register_routes(app=app)
+
+# minio
+minio_config.connect()
 
 # Exception
 app.add_exception_handler(HTTPException, custom_exception_handler)

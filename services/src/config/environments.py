@@ -13,6 +13,11 @@ class Settings(BaseSettings):
     DB_DIALECT: str
     GOOGLE_CUSTOM_SEARCH_API_KEY: str 
     GEMINI_API_KEY: str
+    MINIO_ROOT_USER: str 
+    MINIO_ROOT_PASSWORD: str
+    MINIO_ENDPOINT: str
+    MINIO_BUCKET: str 
+    MINIO_PORT: str
 
     class Config:
         env_file = Path(__file__).resolve().parent.parent.parent / ".env"
