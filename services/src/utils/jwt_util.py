@@ -2,8 +2,8 @@ class JwtUtils:
     def __init__(self) -> None:
         pass
 
-    def generateToken(self):
+    def generate_token(self):
         pass
 
-    def verifyToken(self):
+    def verify_token(self):
         pass
