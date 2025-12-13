@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     MINIO_ENDPOINT: str
     MINIO_BUCKET: str 
     MINIO_PORT: str
+    SECRET_TOKEN: str
+    EXPIRY_TIME: str
 
     class Config:
         env_file = Path(__file__).resolve().parent.parent.parent / ".env"

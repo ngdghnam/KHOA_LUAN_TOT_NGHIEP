@@ -1,4 +1,6 @@
 import bcrypt
+from ..modules.user.user_service import UserService
+from ..modules.auth.dto.login_dto import LoginDto
 
 class UserUtil:
     def __init__(self):
@@ -12,5 +14,5 @@ class UserUtil:
     def comparePassword(self, password: str, hashed_password: str) -> bool:
         return bcrypt.checkpw(password, hashed_password)
     
-    def validate_user(self):
+    def validate_user(self, service: UserService, data: LoginDto):
         return
