@@ -5,6 +5,7 @@ from minio import Minio
 from minio.error import S3Error
 from typing import Optional
 import os
+from ...config.logger import logger
 
 class MinioService:
     def __init__(self, util: FileUtil):
@@ -57,14 +58,20 @@ class MinioService:
             }
 
     async def download_file(self, object_name: str) -> Optional[bytes]:
+        response = None
         try:
             response = self.client.get_object(self.bucket, object_name)
-            data = response.read()
-            response.close()
-            response.release_conn()
-            return data
-        except S3Error:
+            return response.read()
+        except S3Error as e:
+            logger.error(f"MinIO error: {e}")
             return None
+        except Exception as e:
+            logger.error(f"Download failed: {e}")
+            return None
+        finally:
+            if response:
+                response.close()
+                response.release_conn()
 
     async def delete_file(self, object_name: str) -> bool:
         try:

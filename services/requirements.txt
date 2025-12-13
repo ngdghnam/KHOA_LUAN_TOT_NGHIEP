@@ -24,3 +24,7 @@ redis
 fastapi-cache2
 python-multipart
 python-jose
+python-docx
+pytesseract
+pymupdf
+google-genai
