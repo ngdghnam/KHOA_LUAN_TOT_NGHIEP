@@ -1,0 +1,36 @@
+.nav-bar {
+    display: flex;
+    width: 100%;
+    min-height: 65px;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 12px;
+    padding-left: 12px;
+    gap: 4px;
+    box-sizing: border-box;
+}
+
+.search-bar {
+    border: 1px solid #334155;
+    border-radius: 8px;
+    width: 622px;
+    height: 40px;
+    font-size: 14px;
+    padding-left: 10px;
+}
+
+.search-bar::placeholder {
+    font-size: 14px;
+    color: #334155;
+    font-weight: 500;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.theme-select {
+    width: 100px;
+}
