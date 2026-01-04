@@ -1,3 +1,68 @@
-<p>
-  landing works!
-</p>
+<app-nav-bar></app-nav-bar>
+<div style="display: flex; flex-direction: column; width: 100%; position: relative">
+  <div
+    style="
+      height: 670px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('../../../assets/imgs/bg-1.png');
+    "
+  >
+    <div style="padding-left: 120px">
+      <p style="text-transform: uppercase; font-size: 17px; color: #704fe6">
+        Welcome Edunity online courses
+      </p>
+      <p style="font-size: 60px; font-weight: 700; color: #17254e; margin: 0; line-height: 72px">
+        Achieving Your Dreams Through Education
+      </p>
+      <p style="font-size: 17px; line-height: 1.5">
+        We are experienced in educationl platform and skilled strategies <br />
+        for the success of our online learning.
+      </p>
+      <div>
+        <button matButton class="btn">
+          Find Course <i class="bi bi-chevron-double-right"></i>
+        </button>
+      </div>
+    </div>
+    <div style="height: 670px; width: 740.5px">
+      <img
+        src="assets/imgs/hero.jpg"
+        alt="Landing Page Illustration"
+        style="height: 100%; width: 100%; object-fit: cover"
+      />
+    </div>
+  </div>
+
+  <div style="width: 100%; text-align: center; margin: auto auto 24px">
+    <h1 style="text-transform: capitalize; color: #0e2a46; font-size: 45px; line-height: 58.5px">
+      browse by categories
+    </h1>
+    <div
+      style="
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+      "
+    >
+      @for (item of mockData; track $index) {
+      <div
+        [style]="
+          'background-color: ' +
+          item.bgColor +
+          '; padding: 12px 24px; border-radius: 10px; width: 420px; height: 130px; display: flex; justify-content: center; align-items: center'
+        "
+      >
+        <p style="margin: 0; font-weight: 700; font-size: 22px; color: #0e2a46">{{ item.name }}</p>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div></div>
+</div>
+<app-footer></app-footer>

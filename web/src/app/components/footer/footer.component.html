@@ -1,0 +1,88 @@
+<div class="footer">
+  <div class="desc-footer">
+    <div></div>
+    <p>
+      Interdum velit laoreet id donec ultrices tincidunt arcu. Tincidunt tortor aliquam nulla
+      facilisi cras fermentum odio eu.
+    </p>
+    <div style="display: flex; gap: 7px">
+      <button matIconButton aria-label="Facebook" class="icon-footer-btn">
+        <i class="bi bi-facebook"></i>
+      </button>
+      <button matIconButton aria-label="Instagram" class="icon-footer-btn">
+        <i class="bi bi-instagram"></i>
+      </button>
+      <button matIconButton aria-label="Twitter" class="icon-footer-btn">
+        <i class="bi bi-twitter-x"></i>
+      </button>
+      <button matIconButton aria-label="GitHub" class="icon-footer-btn">
+        <i class="bi bi-github"></i>
+      </button>
+    </div>
+  </div>
+  <div style="display: flex; gap: 40px">
+    <div>
+      <h1 style="text-transform: capitalize; font-size: 22px">our services:</h1>
+      <div
+        style="display: flex; flex-direction: column; justify-content: start; align-items: start"
+      >
+        <a href="#" matButton style="color: #fff">
+          <i class="bi bi-chevron-right"></i> Web Development
+        </a>
+        <a href="#" matButton style="color: #fff">
+          <i class="bi bi-chevron-right"></i> UI/UX Design
+        </a>
+        <a href="#" matButton style="color: #fff">
+          <i class="bi bi-chevron-right"></i> Management
+        </a>
+        <a href="#" matButton style="color: #fff">
+          <i class="bi bi-chevron-right"></i> Digital Marketing
+        </a>
+        <a href="#" matButton style="color: #fff">
+          <i class="bi bi-chevron-right"></i> Blogs/News
+        </a>
+      </div>
+    </div>
+    <div>
+      <h1 style="text-transform: capitalize; font-size: 22px">quick links:</h1>
+      <div
+        style="display: flex; flex-direction: column; justify-content: start; align-items: start"
+      >
+        <a href="#" matButton style="color: #fff">
+          <i class="bi bi-chevron-right"></i> Web Development
+        </a>
+        <a href="#" matButton style="color: #fff">
+          <i class="bi bi-chevron-right"></i> UI/UX Design
+        </a>
+        <a href="#" matButton style="color: #fff">
+          <i class="bi bi-chevron-right"></i> Management
+        </a>
+        <a href="#" matButton style="color: #fff">
+          <i class="bi bi-chevron-right"></i> Digital Marketing
+        </a>
+        <a href="#" matButton style="color: #fff">
+          <i class="bi bi-chevron-right"></i> Blogs/News
+        </a>
+      </div>
+    </div>
+  </div>
+  <div style="width: 300px">
+    <h1 style="text-transform: capitalize; font-size: 22px">gallery:</h1>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap">
+      @for (image of studyImages; track image) {
+      <img
+        [src]="image"
+        [alt]="'Study image ' + (studyImages.indexOf(image) + 1)"
+        class="gallery-img"
+      />
+      }
+    </div>
+  </div>
+</div>
+<div class="copy-right">
+  <p>
+    Copyright &copy; 2025 Tech on
+    <b style="color: #ffd25d"> NAMSERA. </b>
+    || All rights reserved.
+  </p>
+</div>
