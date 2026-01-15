@@ -28,3 +28,4 @@ python-docx
 pytesseract
 pymupdf
 google-genai
+pdf2image
