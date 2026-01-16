@@ -3,6 +3,7 @@ import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { MatAnchor, MatButtonModule } from '@angular/material/button';
 import { mockData } from '../../data';
+import { Technologies } from '../../data/tech';
 
 @Component({
   selector: 'app-landing',
@@ -12,6 +13,7 @@ import { mockData } from '../../data';
 })
 export class LandingComponent implements OnInit {
   mockData = mockData;
+  technologies = Technologies;
 
   constructor() {}
 

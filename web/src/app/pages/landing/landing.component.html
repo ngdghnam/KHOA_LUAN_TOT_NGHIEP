@@ -11,18 +11,18 @@
   >
     <div style="padding-left: 120px">
       <p style="text-transform: uppercase; font-size: 17px; color: #704fe6">
-        Welcome Edunity online courses
+        Welcome TO NAMSERA CV SCANNING & ANALYSING PLATFORM
       </p>
       <p style="font-size: 60px; font-weight: 700; color: #17254e; margin: 0; line-height: 72px">
-        Achieving Your Dreams Through Education
+        Achieving Your Dreams Through Automation
       </p>
       <p style="font-size: 17px; line-height: 1.5">
-        We are experienced in educationl platform and skilled strategies <br />
-        for the success of our online learning.
+        We provide advanced automated CV scanning and in-depth analysis strategies <br />
+        to support your long-term career success.
       </p>
       <div>
         <button matButton class="btn">
-          Find Course <i class="bi bi-chevron-double-right"></i>
+          Scan CV now <i class="bi bi-chevron-double-right"></i>
         </button>
       </div>
     </div>
@@ -50,19 +50,63 @@
       "
     >
       @for (item of mockData; track $index) {
-      <div
-        [style]="
-          'background-color: ' +
-          item.bgColor +
-          '; padding: 12px 24px; border-radius: 10px; width: 420px; height: 130px; display: flex; justify-content: center; align-items: center'
-        "
-      >
-        <p style="margin: 0; font-weight: 700; font-size: 22px; color: #0e2a46">{{ item.name }}</p>
-      </div>
+        <div
+          [style]="
+            'background-color: ' +
+            item.bgColor +
+            '; padding: 12px 24px; border-radius: 10px; width: 420px; height: 130px; display: flex; justify-content: center; align-items: center'
+          "
+        >
+          <p style="margin: 0; font-weight: 700; font-size: 22px; color: #0e2a46">
+            {{ item.name }}
+          </p>
+        </div>
       }
     </div>
   </div>
 
-  <div></div>
+  <div style="width: 100%; text-align: center; margin-bottom: 24px">
+    <h1 style="text-transform: capitalize; color: #0e2a46; font-size: 45px; line-height: 58.5px">
+      Built with technologies & tools
+    </h1>
+
+    <div
+      style="
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+      "
+    >
+      @for (item of technologies; track item.id) {
+        <div
+          [style.backgroundColor]="item.bgColor"
+          style="
+            padding: 12px 24px;
+            border-radius: 10px;
+            width: 420px;
+            height: 130px;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <!-- ICON -->
+          <img [src]="item.icon" [alt]="item.name" style="width: 48px; height: 48px" />
+
+          <!-- NAME -->
+          <p style="margin: 0; font-weight: 700; font-size: 22px; color: #0e2a46">
+            {{ item.name }}
+          </p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- TESTIMONIAL -->
+  <div style="margin: auto"></div>
 </div>
 <app-footer></app-footer>

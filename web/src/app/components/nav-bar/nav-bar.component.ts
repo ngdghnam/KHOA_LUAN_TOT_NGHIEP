@@ -11,7 +11,14 @@ import { MatIcon } from '@angular/material/icon';
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css'],
-  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, MatTooltipModule, MatSelectModule],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatSelectModule,
+    MatIcon,
+  ],
 })
 export class NavBarComponent implements OnInit {
   constructor(readonly themeService: ThemeService) {}
