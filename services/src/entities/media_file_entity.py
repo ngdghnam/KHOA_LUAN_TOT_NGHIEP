@@ -9,8 +9,6 @@ class MediaFileEntity(BaseEntity):
     type: Mapped[str] = mapped_column(String(50), nullable=False)
     link: Mapped[str] = mapped_column(String(255), nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
 
     # RELATIONSHIPS
-    user: Mapped["UserEntity"] = relationship(back_populates="media_files")
     cv_sessions: Mapped[list["CvAnalysisSessionEntity"]] = relationship(back_populates="cv_file") # type: ignore

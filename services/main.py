@@ -6,9 +6,14 @@ from fastapi import HTTPException
 from src.config.lifespan import lifespan
 from src.config.minio_config import minio_config
 
+desc: str = "This Platform is designed to scan and analyse CVs automatically by AI. \n" \
+"After scanning and analyzing, the system will generate keywords and then search google to find information or courses to " \
+"improve the CVs"
+
 info: dict = {
     "version": "1.0.0",
-    "author": "Nguyễn Đặng Hoài Nam"
+    "author": "Nguyễn Đặng Hoài Nam",
+    "description": desc
 }
 
 app: FastAPI = FastAPI(lifespan=lifespan)
@@ -16,11 +21,15 @@ app: FastAPI = FastAPI(lifespan=lifespan)
 # Middlewares
 cors_middleware.add(app)
 logging_middleware.add(app)
-sql_injection_middleware.add(app)
+# sql_injection_middleware.add(app)
     
 @app.get("/")
 def readRoot(request: Request): 
-    return {"message": "Welcome to our website", "Information": info}
+    print("request", request)
+    return {
+        "message": "Welcome to Scan & Analyze CV Automation Platform", 
+        "Information": info
+    }
 
 # Routes
 register_routes(app=app)

@@ -5,3 +5,30 @@
     height: 60px;
     border-radius: 200px;
 }
+
+.testimonial-track {
+    display: flex;
+    width: max-content;
+    animation: scroll-left 25s linear infinite;
+}
+
+.testimonial-card {
+    width: 408px;
+    height: 202px;
+    border-radius: 20px;
+    border: 1px solid #17254e;
+    padding: 16px;
+    margin-right: 24px;
+    box-sizing: border-box;
+    background: white;
+}
+
+@keyframes scroll-left {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}

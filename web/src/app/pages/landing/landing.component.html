@@ -21,7 +21,7 @@
         to support your long-term career success.
       </p>
       <div>
-        <button matButton class="btn">
+        <button matButton class="btn" (click)="onClickScanCv()">
           Scan CV now <i class="bi bi-chevron-double-right"></i>
         </button>
       </div>
@@ -37,7 +37,7 @@
 
   <div style="width: 100%; text-align: center; margin: auto auto 24px">
     <h1 style="text-transform: capitalize; color: #0e2a46; font-size: 45px; line-height: 58.5px">
-      browse by categories
+      Analyse multiple categories
     </h1>
     <div
       style="
@@ -54,7 +54,7 @@
           [style]="
             'background-color: ' +
             item.bgColor +
-            '; padding: 12px 24px; border-radius: 10px; width: 420px; height: 130px; display: flex; justify-content: center; align-items: center'
+            '; padding: 12px 24px; border-radius: 10px; width: 360px; height: 130px; display: flex; justify-content: center; align-items: center'
           "
         >
           <p style="margin: 0; font-weight: 700; font-size: 22px; color: #0e2a46">
@@ -86,7 +86,7 @@
           style="
             padding: 12px 24px;
             border-radius: 10px;
-            width: 420px;
+            width: 360px;
             height: 130px;
             display: flex;
             gap: 16px;
@@ -106,7 +106,57 @@
     </div>
   </div>
 
-  <!-- TESTIMONIAL -->
-  <div style="margin: auto"></div>
+  <!-- TESTIMONIAL CAROUSEL -->
+  <!-- CONTINUOUS TESTIMONIAL -->
+  <div
+    style="
+      width: 100%;
+      overflow: hidden;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0;
+    "
+  >
+    <div
+      style="
+        width: 142px;
+        height: 32px;
+        border-radius: 5px;
+        background-color: #e9e2ff;
+        color: #704fe6;
+        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: 400;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <p>testimonial</p>
+    </div>
+    <h1
+      style="
+        text-transform: capitalize;
+        color: #0e2a46;
+        font-size: 45px;
+        line-height: 58.5px;
+        text-align: center;
+      "
+    >
+      Creating A Community Of <br />
+      Life Long Learners.
+    </h1>
+    <div class="testimonial-track">
+      <div class="testimonial-card" *ngFor="let testimonial of testimonials.concat(testimonials)">
+        <p>"{{ testimonial.feedback }}"</p>
+        <h3>{{ testimonial.name }}</h3>
+        <span style="color: #704fe6">{{ testimonial.role }}</span>
+      </div>
+    </div>
+  </div>
 </div>
 <app-footer></app-footer>

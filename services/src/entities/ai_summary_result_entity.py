@@ -15,4 +15,4 @@ class AISummaryResultEntity(BaseEntity):
 
     # RELATIONSHIPS
     session_id: Mapped[int] = mapped_column(ForeignKey("cv_analysis_sessions.id"), nullable=False)
-    session: Mapped["CvAnalysisSessionEntityEntity"] = relationship(back_populates="ai_summary_results")  # type: ignore
+    session: Mapped["CvAnalysisSessionEntity"] = relationship(back_populates="ai_summary_results")  # type: ignore

@@ -1,9 +1,6 @@
-from src.entities.article_recommendation_entity import ArticleRecommendationEntity
 from src.entities.base_entity import BaseEntity
 from sqlalchemy import Column, Integer, String, UUID, DateTime, Boolean, ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from .article_skill_entity import ArticleSkillEntity
-from .article_tag_mapping_entity import ArticleTagMappingEntity
 
 class ArticleEntity(BaseEntity):
     __tablename__ = "articles"
@@ -17,6 +14,6 @@ class ArticleEntity(BaseEntity):
     url: Mapped[str] = mapped_column(String(255), nullable=True)
 
     # RELATIONSHIPS
-    skills: Mapped[list["ArticleSkillEntity"]] = relationship(back_populates="article")  # type: ignore
+    skills: Mapped[list["ArticleSkillEntity"]] = relationship(back_populates="article")  # type: ignore  ✅ Changed from "article_skills"
     tags: Mapped[list["ArticleTagMappingEntity"]] = relationship(back_populates="article")  # type: ignore
     recommendations: Mapped[list["ArticleRecommendationEntity"]] = relationship(back_populates="article") # type: ignore

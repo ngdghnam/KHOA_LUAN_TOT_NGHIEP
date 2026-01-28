@@ -17,7 +17,7 @@ import { MatIcon } from '@angular/material/icon';
     MatButtonModule,
     MatTooltipModule,
     MatSelectModule,
-    MatIcon,
+    // MatIcon,
   ],
 })
 export class NavBarComponent implements OnInit {

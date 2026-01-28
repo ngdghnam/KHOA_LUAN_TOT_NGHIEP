@@ -1,0 +1,24 @@
+<div
+  class="loading-overlay"
+  *ngIf="isLoading"
+  [style.background-color]="config.backgroundColor"
+  [style.z-index]="config.zIndex"
+>
+  <div class="loading-container">
+    <!-- HÌNH ẢNH LOADING - Thay đổi src để đổi hình -->
+    <img
+      [src]="config.imageUrl"
+      alt="Loading"
+      class="loading-image"
+      (error)="config.imageUrl = 'assets/images/default-loading.gif'"
+    />
+
+    <!-- MESSAGE -->
+    <p class="loading-message" *ngIf="config.message">{{ config.message }}</p>
+
+    <!-- SPINNER DỰ PHÒNG (nếu không có hình) -->
+    <div class="loading-spinner" *ngIf="!config.imageUrl">
+      <div class="spinner"></div>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,7 @@ from src.entities.base_entity import BaseEntity
 from sqlalchemy import Column, Integer, String, UUID, DateTime, Boolean, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .user_entity import UserEntity
-from .cv_analysis_session_entity import CvAnalysisSessionEntityEntity
+from .cv_analysis_session_entity import CvAnalysisSessionEntity
 
 
 class SessionImprovementEntity(BaseEntity):

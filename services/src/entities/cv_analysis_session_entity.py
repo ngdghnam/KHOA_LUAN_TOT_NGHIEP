@@ -6,15 +6,12 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 class CvAnalysisSessionEntity(BaseEntity):
     __tablename__ = "cv_analysis_sessions"
 
-    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id"), nullable=False)
+    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id"), nullable=True)
     cv_file_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("media_files.id"), nullable=False)
 
-    status: Mapped[str] = mapped_column(String(50), default="PENDING")
-    overall_score: Mapped[float | None] = mapped_column(DECIMAL(5, 2))
-    error_message: Mapped[str | None] = mapped_column(Text)
-    processing_time: Mapped[int | None] = mapped_column(Integer)
-    analysis_type: Mapped[str | None] = mapped_column(String(50))
-    completed_at: Mapped[DateTime | None] = mapped_column(DateTime)
+    status: Mapped[str] = mapped_column(String(50), default="PENDING", nullable=True)
+    summary: Mapped[str] = mapped_column(Text, nullable=True)
+    completed_at: Mapped[DateTime | None] = mapped_column(DateTime, nullable=True)
 
     __table_args__ = (
         CheckConstraint("overall_score >= 0 AND overall_score <= 100"),
@@ -25,9 +22,24 @@ class CvAnalysisSessionEntity(BaseEntity):
     user: Mapped["UserEntity"] = relationship(back_populates="cv_sessions") # type: ignore    
     cv_file: Mapped["MediaFileEntity"] = relationship(back_populates="cv_sessions") # type: ignore
 
-    ai_results: Mapped[list["AiAnalysisResultEntity"]] = relationship(back_populates="session") # type: ignore
-    summary: Mapped["AISummaryResultEntity"] = relationship(back_populates="session", uselist=False) # type: ignore
-    missing_skills: Mapped[list["SessionMissingSkill"]] = relationship(back_populates="session") # type: ignore
-    course_recommendations: Mapped[list["CourseRecommendation"]] = relationship(back_populates="session")  # type: ignore
+    ai_summary_results: Mapped["AISummaryResultEntity"] = relationship(back_populates="session", uselist=False) # type: ignore
+    missing_skills: Mapped[list["SessionMissingSkillEntity"]] = relationship(back_populates="session") # type: ignore
     article_recommendations: Mapped[list["ArticleRecommendationEntity"]] = relationship(back_populates="session") # type: ignore
-    feedbacks: Mapped[list["UserSessionFeedbackEntity"]] = relationship(back_populates="session") # type: ignore
+
+    questions: Mapped[list["QuestionEntity"]] = relationship(
+        back_populates="session",
+        cascade="all, delete-orphan"
+    )
+
+    skill_gaps: Mapped[list["SessionSkillGapEntity"]] = relationship(
+        back_populates="session",
+        cascade="all, delete-orphan"
+    )
+
+    keywords: Mapped[list["SessionKeywordEntity"]] = relationship(
+        back_populates="session",
+        cascade="all, delete-orphan"
+    )
+
+    # course_recommendations: Mapped[list["CourseRecommendation"]] = relationship(back_populates="session")  # type: ignore
+    # feedbacks: Mapped[list["UserSessionFeedbackEntity"]] = relationship(back_populates="session") # type: ignore

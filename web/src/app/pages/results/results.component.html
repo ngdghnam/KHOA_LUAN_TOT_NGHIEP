@@ -1,0 +1,144 @@
+<div class="container">
+  <!-- HEADER -->
+  <mat-card class="header-card">
+    <div class="header">
+      <div>
+        <h2>CV Analysis Result</h2>
+        <span class="session-id">SESSION: {{ sessionId }}</span>
+      </div>
+      <mat-icon>description</mat-icon>
+    </div>
+  </mat-card>
+
+  <!-- LOADING -->
+  <mat-card *ngIf="loading" class="loading-card">
+    <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+    <p>AI đang phân tích CV, vui lòng chờ...</p>
+  </mat-card>
+
+  <!-- CONTENT -->
+  <ng-container *ngIf="!loading && session">
+    <!-- SUMMARY -->
+    <mat-card class="content-card">
+      <mat-card-header>
+        <mat-card-title class="card-title">
+          <mat-icon>summarize</mat-icon>
+          CV Analysis Summary
+        </mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <div class="summary-content" [innerHTML]="formatSummary(session.summary)"></div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- KEYWORDS -->
+    <mat-card class="content-card">
+      <mat-card-header>
+        <mat-card-title class="card-title">
+          <mat-icon>label</mat-icon>
+          Keywords
+        </mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <mat-chip-set>
+          <mat-chip *ngFor="let k of session.keywords">{{ k.name }}</mat-chip>
+        </mat-chip-set>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- QUESTIONS -->
+    <mat-card class="content-card">
+      <mat-card-header>
+        <mat-card-title class="card-title">
+          <mat-icon>help_outline</mat-icon>
+          Interview Questions
+        </mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <div class="question-item" *ngFor="let q of session.questions">
+          <span class="question-number">{{ q.order_index + 1 }}</span>
+          <p>{{ q.content }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- SKILL GAPS -->
+    <mat-card class="content-card">
+      <mat-card-header>
+        <mat-card-title class="card-title">
+          <mat-icon>psychology</mat-icon>
+          Skill Gaps & Learning Recommendations
+        </mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <div class="skill-gap-item" *ngFor="let gap of session.skill_gaps; let last = last">
+          <h3 class="skill-keyword">{{ gap.learning_keyword }}</h3>
+
+          <div class="gap-section">
+            <strong>Gap:</strong>
+            <p>{{ gap.skill_gap }}</p>
+          </div>
+
+          <div class="gap-section">
+            <strong>Why it matters:</strong>
+            <p>{{ gap.why_it_matters }}</p>
+          </div>
+
+          <div class="gap-section">
+            <strong>Recommended resources:</strong>
+            <mat-chip-set>
+              <mat-chip *ngFor="let resource of gap.resource_types">
+                <mat-icon matChipAvatar>
+                  {{ resource.resource_type === 'Course' ? 'video_library' : 'article' }}
+                </mat-icon>
+                {{ resource.resource_type }}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+
+          <mat-divider *ngIf="!last"></mat-divider>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- ARTICLES -->
+    <mat-card class="content-card">
+      <mat-card-header>
+        <mat-card-title class="card-title">
+          <mat-icon>article</mat-icon>
+          Recommended Articles
+        </mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <div class="articles-grid">
+          <mat-card
+            class="article-card"
+            *ngFor="let article of session.article_recommendations; let i = index"
+          >
+            <mat-card-content>
+              <span class="article-number">{{ i + 1 }}</span>
+              <a [href]="article.url" target="_blank" class="article-link">
+                <h3>{{ article.title }}</h3>
+              </a>
+              <mat-chip>
+                <mat-icon matChipAvatar>language</mat-icon>
+                {{ getDomain(article.url) }}
+              </mat-chip>
+            </mat-card-content>
+            <mat-card-actions>
+              <a mat-button color="primary" [href]="article.url" target="_blank">
+                <mat-icon>open_in_new</mat-icon>
+                Read Article
+              </a>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+</div>

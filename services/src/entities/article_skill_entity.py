@@ -11,7 +11,7 @@ class ArticleSkillEntity(BaseEntity):
 
     # RELATIONSHIPS
     article_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("articles.id"), nullable=False)
-    article: Mapped["ArticleEntity"] = relationship(back_populates="article_skills")  # type: ignore
+    article: Mapped["ArticleEntity"] = relationship(back_populates="skills")  # ✅ Changed
 
     skill_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("skills.id"), nullable=False)
-    skill: Mapped["SkillEntity"] = relationship(back_populates="article_skills")  # type: ignore
+    skill: Mapped["SkillEntity"] = relationship(back_populates="articles_skills")  # ✅ Changed

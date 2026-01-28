@@ -11,6 +11,3 @@ class AIModelEntity(BaseEntity):
     version: Mapped[str | None] = mapped_column(String(50))
     description: Mapped[str | None] = mapped_column(Text)
     active: Mapped[bool] = mapped_column(Boolean, default=True)
-
-    analysis_results : Mapped[list["AiAnalysisResultEntity"]] = relationship(back_populates="ai_model")  # type: ignore
-    performance_metrics : Mapped[list["AiModelPerformanceEntity"]] = relationship(back_populates="ai_model")  # type: ignore

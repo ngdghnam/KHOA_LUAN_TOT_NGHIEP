@@ -24,5 +24,5 @@ class SessionMissingSkillEntity(BaseEntity):
     gap_analysis: Mapped[str | None] = mapped_column(Text)
 
     # RELATIONSHIPS
-    session: Mapped["CvAnalysisSessionEntityEntity"] = relationship(back_populates="session_missing_skills")  # type: ignore
+    session: Mapped["CvAnalysisSessionEntity"] = relationship(back_populates="missing_skills")  # type: ignore
     skill: Mapped["SkillEntity"] = relationship(back_populates="session_missing_skills")  # type: ignore
