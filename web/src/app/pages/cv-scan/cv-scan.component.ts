@@ -123,10 +123,11 @@ export class CvScanComponent implements OnInit {
 
   analyseCv(data: any) {
     this.apiService.post(this.apiService.FILE.SCAN_CV, data).then((res) => {
-      // console.log(res);
       this.loadingService.show();
-      if (res) {
+      if (res && res.session_id) {
         this.sessionObject.session_id = res.session_id;
+
+        // Navigate ngay lập tức - component Result sẽ handle polling
         this.router.navigate(['/analysed-session-result', this.sessionObject.session_id]);
         this.loadingService.hide();
       }

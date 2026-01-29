@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
-import { interval, Subscription, switchMap, takeWhile } from 'rxjs';
+import { interval, Subscription, switchMap, takeWhile, startWith } from 'rxjs';
 import { ApiService } from '../../core/services/api.service';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -45,15 +45,25 @@ export class ResultsComponent implements OnInit, OnDestroy {
   startPolling() {
     this.pollingSub = interval(3000)
       .pipe(
+        startWith(0), // Gọi ngay lập tức thay vì đợi 3s đầu tiên
         switchMap(() => this.apiService.get(`cv-session/get-session-detail/${this.sessionId}`)),
-        takeWhile((res: any) => res.data.status !== 'DONE', true),
+        takeWhile((res: any) => {
+          // Kiểm tra cả trường hợp res.data null hoặc status chưa DONE
+          return !res.data || res.data.status !== 'DONE';
+        }, true),
       )
       .subscribe({
         next: (res: any) => {
-          this.session = res.data;
-          this.loading = res.data.status !== 'DONE';
+          if (res.data) {
+            this.session = res.data;
+            this.loading = res.data.status !== 'DONE';
+          } else {
+            // Session chưa có data, vẫn đang processing
+            this.loading = true;
+          }
         },
-        error: () => {
+        error: (err) => {
+          console.error('Polling error:', err);
           this.loading = false;
         },
       });
