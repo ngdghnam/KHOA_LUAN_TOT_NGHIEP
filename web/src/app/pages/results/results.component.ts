@@ -30,6 +30,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
   session: any;
   loading = true;
   pollingSub?: Subscription;
+  questions: string[] = [];
+  parsedEvaluate: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -57,9 +59,15 @@ export class ResultsComponent implements OnInit, OnDestroy {
           if (res.data) {
             this.session = res.data;
             this.loading = res.data.status !== 'DONE';
-          } else {
-            // Session chưa có data, vẫn đang processing
-            this.loading = true;
+
+            if (res.data.evaluate) {
+              this.parsedEvaluate = this.parseEvaluate(res.data.evaluate);
+            }
+
+            // SORT QUESTION THEO ORDER_INDEX
+            this.session.questions = this.session.questions?.sort(
+              (a: any, b: any) => a.order_index - b.order_index,
+            );
           }
         },
         error: (err) => {
@@ -67,6 +75,42 @@ export class ResultsComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
       });
+  }
+
+  // getQuestions(data: any) {
+  //   data.forEach((question: any) => {
+  //     this.questions.push(question.content);
+  //   });
+  //   // console.log(this.questions);
+  //   const allQuestions = this.questions;
+  //   console.log(allQuestions);
+  //   // this.apiService.postN8n(allQuestions).then((res: any) => {
+  //   //   console.log(res);
+  //   // });
+  // }
+
+  getQuestions(data: any) {
+    this.questions = []; // reset trước
+
+    data.forEach((question: any) => {
+      this.questions.push(question.content);
+    });
+  }
+
+  parseEvaluate(raw: string): any {
+    if (!raw) return null;
+
+    try {
+      const cleaned = raw
+        .replace(/```json/g, '')
+        .replace(/```/g, '')
+        .trim();
+
+      return JSON.parse(cleaned);
+    } catch (error) {
+      console.error('Failed to parse evaluate JSON:', error);
+      return null;
+    }
   }
 
   ngOnDestroy(): void {

@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     MINIO_PORT: str
     SECRET_TOKEN: str
     EXPIRY_TIME: str
+    n8nGenAnswersAgent: str
 
     class Config:
         env_file = Path(__file__).resolve().parent.parent.parent / ".env"

@@ -8,11 +8,20 @@ import { environment } from '../../../environments/environment.development';
 })
 export class ApiService {
   host = environment.apiUrl + '/';
+  n8nGenFollowingQuestionHost =
+    'http://localhost:5678/webhook-test/cedff963-3e77-4f9d-b674-d0363039568b';
   constructor(private http: HttpClient) {}
 
   //#region METHODs
   post(url: string, data: any) {
     const request = this.http.post(this.host + url, data, {
+      headers: new HttpHeaders({ 'accept-language': 'EN' }),
+    });
+    return lastValueFrom(request) as Promise<any>;
+  }
+
+  postN8n(data: any) {
+    const request = this.http.post(this.n8nGenFollowingQuestionHost, data, {
       headers: new HttpHeaders({ 'accept-language': 'EN' }),
     });
     return lastValueFrom(request) as Promise<any>;
@@ -102,11 +111,17 @@ export class ApiService {
   //#region APIs
   SESSION = {
     FIND_DETAIL: `cv-session/get-session-detail`,
+    SUBMIT_TO_GET_OTHER: `cv-session/submit-first-questions-get-other`,
+    FINALIZE: `cv-session/finallize`,
   };
 
   FILE = {
     BEFORE_UPLOAD: `files/upload`,
     SCAN_CV: `files/scan-cv`,
+  };
+
+  N8N = {
+    GET_FOLLOWING_QUESTIONS: '',
   };
   //#endregion
 }

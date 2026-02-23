@@ -14,6 +14,6 @@ class ArticleEntity(BaseEntity):
     url: Mapped[str] = mapped_column(String(255), nullable=True)
 
     # RELATIONSHIPS
-    skills: Mapped[list["ArticleSkillEntity"]] = relationship(back_populates="article")  # type: ignore  ✅ Changed from "article_skills"
+    skills: Mapped[list["ArticleSkillEntity"]] = relationship(back_populates="article")  # type: ignore 
     tags: Mapped[list["ArticleTagMappingEntity"]] = relationship(back_populates="article")  # type: ignore
     recommendations: Mapped[list["ArticleRecommendationEntity"]] = relationship(back_populates="article") # type: ignore

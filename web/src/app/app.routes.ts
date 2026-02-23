@@ -15,4 +15,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/results/results.component').then((m) => m.ResultsComponent),
   },
+  {
+    path: 'answer-questions/:id',
+    loadComponent: () =>
+      import('./pages/answer-question/answer-question.component').then(
+        (m) => m.AnswerQuestionComponent,
+      ),
+  },
 ];

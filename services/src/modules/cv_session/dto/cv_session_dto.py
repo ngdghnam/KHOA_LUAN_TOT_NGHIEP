@@ -6,6 +6,28 @@ class ArticleDto(BaseModel):
     url: str
     content: str
     snippet: Optional[str] = ""
+    keyword: Optional[str] = ""
+
+class questionsEvaluate(BaseModel):
+    id: str
+    content: str
+
+class answersEvaluate(BaseModel):
+    id: str
+    answer: str 
+
+class OverallSummarizeDto(BaseModel):
+    session_id: str
+    summary: str
+    questionsR1: List[str]
+    questionsR2: List[str]
+    answersR1: List[str]
+    answersR2: List[str]
+
+class SubmitToGetOtherQuestionsDto(BaseModel):
+    session_id: str
+    questions: List[str]
+    answers: List[str]
 
 class SkillGapDto(BaseModel):
     learning_keyword: str
@@ -19,9 +41,10 @@ class SessionDto(BaseModel):
     articles: List[ArticleDto]
     questions: List[str]
     total_articles: int
-    summary: str
+    evaluate: str
     skill_gaps: List[SkillGapDto]
     session_id: str
+    answers: List[str]
 
 class UrlDto(BaseModel):
     """DTO for URL references (portfolio, LinkedIn, etc.)"""

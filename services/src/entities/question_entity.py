@@ -20,3 +20,10 @@ class QuestionEntity(BaseEntity):
     session: Mapped["CvAnalysisSessionEntity"] = relationship(
         back_populates="questions"
     )
+    
+    # 🔥 One-to-One với Answer
+    answer: Mapped["AnswerEntity"] = relationship( #type: ignore
+        back_populates="question",
+        uselist=False,
+        cascade="all, delete-orphan"
+    )

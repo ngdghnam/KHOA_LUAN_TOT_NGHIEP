@@ -13,6 +13,8 @@ class CvAnalysisSessionEntity(BaseEntity):
     summary: Mapped[str] = mapped_column(Text, nullable=True)
     completed_at: Mapped[DateTime | None] = mapped_column(DateTime, nullable=True)
 
+    evaluate: Mapped[str] = mapped_column(Text, nullable=True)
+
     __table_args__ = (
         CheckConstraint("overall_score >= 0 AND overall_score <= 100"),
         CheckConstraint("status IN ('PENDING','PROCESSING','DONE','FAILED')"),

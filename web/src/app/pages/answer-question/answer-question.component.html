@@ -1,0 +1,60 @@
+<div class="answer-container">
+  <!-- POLLING: Chờ AI trả về questions -->
+  <div *ngIf="isPolling" class="polling-wrapper">
+    <mat-spinner diameter="56"></mat-spinner>
+    <h2>{{ pollingStatus }}</h2>
+    <p>Vui lòng không đóng trang này</p>
+  </div>
+
+  <!-- FORM: Hiển thị sau khi có questions -->
+  <ng-container *ngIf="!isPolling">
+    <mat-card class="header-card">
+      <mat-card-content>
+        <h1 class="title">📋 Questions</h1>
+        <p class="subtitle">Please answer all the following questions</p>
+      </mat-card-content>
+    </mat-card>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-card *ngFor="let question of questions; let i = index" class="question-card">
+        <mat-card-content>
+          <div class="question-header">
+            <span class="question-number">Câu {{ i + 1 }}</span>
+          </div>
+          <p class="question-text">{{ question }}</p>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Your answer</mat-label>
+            <textarea
+              matInput
+              [formControlName]="'answer_' + i"
+              rows="4"
+              placeholder="Input your answer here..."
+            ></textarea>
+            <mat-error *ngIf="getControl(i)?.hasError('required')">
+              Please input your here!
+            </mat-error>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Submit -->
+      <div class="submit-wrapper">
+        <div class="submit-polling-status" *ngIf="isSubmitPolling">
+          <mat-spinner diameter="18"></mat-spinner>
+          <span>{{ submitPollingStatus }}</span>
+        </div>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="isSubmitting"
+          class="submit-btn"
+        >
+          <mat-spinner *ngIf="isSubmitting" diameter="20"></mat-spinner>
+          <span *ngIf="!isSubmitting">🚀 Gửi câu trả lời</span>
+          <span *ngIf="isSubmitting">Đang xử lý...</span>
+        </button>
+      </div>
+    </form>
+  </ng-container>
+</div>

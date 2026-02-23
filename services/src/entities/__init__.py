@@ -16,9 +16,10 @@ from .skill_gap_resource_type_entity import SkillGapResourceTypeEntity
 from .skill_gap_entity import SessionSkillGapEntity
 from .question_entity import QuestionEntity
 from .session_keyword_entity import SessionKeywordEntity
+from .answer_entity import AnswerEntity
 
 __all__ = ["RoleEntity",  "UserEntity", "BaseEntity", "MediaFileEntity", "CvAnalysisSessionEntity",
             "AIModelEntity", "AISummaryResultEntity", "ArticleRecommendationEntity", "ArticleEntity", "ArticleTagEntity",
            "ArticleTagMappingEntity", "ArticleSkillEntity", "SessionMissingSkillEntity", "SkillEntity", "QuestionEntity", "SessionSkillGapEntity",
-           "SkillGapResourceTypeEntity", "SessionKeywordEntity"
+           "SkillGapResourceTypeEntity", "SessionKeywordEntity", "AnswerEntity"
         ]

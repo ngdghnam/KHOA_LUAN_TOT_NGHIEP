@@ -50,6 +50,21 @@ export class CvScanComponent implements OnInit {
 
   ngOnInit() {}
 
+  downloadTemplate(type: 'docx' | 'pdf') {
+    const fileName = type === 'docx' ? 'cv-template.docx' : 'cv-template.pdf';
+
+    const filePath = `assets/template/${fileName}`;
+
+    const link = document.createElement('a');
+    link.href = filePath;
+    link.download = fileName;
+    link.target = '_blank'; // cho phép xem trước nếu browser support
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   onDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -126,9 +141,7 @@ export class CvScanComponent implements OnInit {
       this.loadingService.show();
       if (res && res.session_id) {
         this.sessionObject.session_id = res.session_id;
-
-        // Navigate ngay lập tức - component Result sẽ handle polling
-        this.router.navigate(['/analysed-session-result', this.sessionObject.session_id]);
+        this.router.navigate(['/answer-questions', res.session_id]); // 👈 navigate tới answer-questions
         this.loadingService.hide();
       }
     });

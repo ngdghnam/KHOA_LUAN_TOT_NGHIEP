@@ -1,144 +1,227 @@
-<div class="container">
-  <!-- HEADER -->
-  <mat-card class="header-card">
-    <div class="header">
-      <div>
-        <h2>CV Analysis Result</h2>
-        <span class="session-id">SESSION: {{ sessionId }}</span>
+<div class="page">
+  <div class="container">
+    <!-- HEADER -->
+    <mat-card class="header-card">
+      <div class="header">
+        <div>
+          <h2>CV Analysis Result</h2>
+          <span class="session-id">SESSION: {{ sessionId }}</span>
+        </div>
+        <mat-icon>description</mat-icon>
       </div>
-      <mat-icon>description</mat-icon>
-    </div>
-  </mat-card>
-
-  <!-- LOADING -->
-  <mat-card *ngIf="loading" class="loading-card">
-    <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
-    <p>Đang phân tích CV, vui lòng chờ...</p>
-  </mat-card>
-
-  <!-- CONTENT -->
-  <ng-container *ngIf="!loading && session">
-    <!-- SUMMARY -->
-    <mat-card class="content-card">
-      <mat-card-header>
-        <mat-card-title class="card-title">
-          <mat-icon>summarize</mat-icon>
-          CV Analysis Summary
-        </mat-card-title>
-      </mat-card-header>
-      <mat-divider></mat-divider>
-      <mat-card-content>
-        <div class="summary-content" [innerHTML]="formatSummary(session.summary)"></div>
-      </mat-card-content>
     </mat-card>
 
-    <!-- KEYWORDS -->
-    <mat-card class="content-card">
-      <mat-card-header>
-        <mat-card-title class="card-title">
-          <mat-icon>label</mat-icon>
-          Keywords
-        </mat-card-title>
-      </mat-card-header>
-      <mat-divider></mat-divider>
-      <mat-card-content>
-        <mat-chip-set>
-          <mat-chip *ngFor="let k of session.keywords">{{ k.name }}</mat-chip>
-        </mat-chip-set>
-      </mat-card-content>
+    <!-- LOADING -->
+    <mat-card *ngIf="loading" class="loading-card">
+      <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+      <p>Đang phân tích CV, vui lòng chờ...</p>
     </mat-card>
 
-    <!-- QUESTIONS -->
-    <mat-card class="content-card">
-      <mat-card-header>
-        <mat-card-title class="card-title">
-          <mat-icon>help_outline</mat-icon>
-          Interview Questions
-        </mat-card-title>
-      </mat-card-header>
-      <mat-divider></mat-divider>
-      <mat-card-content>
-        <div class="question-item" *ngFor="let q of session.questions">
-          <span class="question-number">{{ q.order_index + 1 }}</span>
-          <p>{{ q.content }}</p>
-        </div>
-      </mat-card-content>
-    </mat-card>
+    <!-- CONTENT -->
+    <ng-container *ngIf="!loading && session">
+      <!-- SUMMARY -->
+      <mat-card class="content-card">
+        <mat-card-header>
+          <mat-card-title class="card-title">
+            <mat-icon>summarize</mat-icon>
+            CV Analysis Summary
+          </mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="summary-content" [innerHTML]="formatSummary(session.summary)"></div>
+        </mat-card-content>
+      </mat-card>
 
-    <!-- SKILL GAPS -->
-    <mat-card class="content-card">
-      <mat-card-header>
-        <mat-card-title class="card-title">
-          <mat-icon>psychology</mat-icon>
-          Skill Gaps & Learning Recommendations
-        </mat-card-title>
-      </mat-card-header>
-      <mat-divider></mat-divider>
-      <mat-card-content>
-        <div class="skill-gap-item" *ngFor="let gap of session.skill_gaps; let last = last">
-          <h3 class="skill-keyword">{{ gap.learning_keyword }}</h3>
+      <!-- AI EVALUATION -->
+      <mat-card *ngIf="parsedEvaluate" class="content-card evaluation-card">
+        <mat-card-header>
+          <mat-card-title class="card-title">
+            <mat-icon>insights</mat-icon>
+            AI Evaluation
+          </mat-card-title>
+        </mat-card-header>
 
-          <div class="gap-section">
-            <strong>Gap:</strong>
-            <p>{{ gap.skill_gap }}</p>
+        <mat-divider></mat-divider>
+
+        <mat-card-content>
+          <!-- FINAL DECISION -->
+          <div class="final-decision">
+            <h2
+              [ngClass]="{
+                strong: parsedEvaluate.final_decision.result === 'STRONGLY SUITABLE',
+                moderate: parsedEvaluate.final_decision.result === 'SUITABLE',
+                weak: parsedEvaluate.final_decision.result !== 'STRONGLY SUITABLE',
+              }"
+            >
+              {{ parsedEvaluate.final_decision.result }}
+            </h2>
+
+            <div
+              class="decision-reason"
+              [innerHTML]="formatSummary(parsedEvaluate.final_decision.reasoning)"
+            ></div>
           </div>
 
-          <div class="gap-section">
-            <strong>Why it matters:</strong>
-            <p>{{ gap.why_it_matters }}</p>
+          <mat-divider></mat-divider>
+
+          <!-- STRENGTHS -->
+          <div class="evaluation-section">
+            <h3>Strengths</h3>
+            <ul>
+              <li *ngFor="let s of parsedEvaluate.summary_evaluation.strengths">
+                {{ s }}
+              </li>
+            </ul>
           </div>
 
-          <div class="gap-section">
-            <strong>Recommended resources:</strong>
-            <mat-chip-set>
-              <mat-chip *ngFor="let resource of gap.resource_types">
-                <mat-icon matChipAvatar>
-                  {{ resource.resource_type === 'Course' ? 'video_library' : 'article' }}
-                </mat-icon>
-                {{ resource.resource_type }}
-              </mat-chip>
-            </mat-chip-set>
+          <!-- WEAKNESSES -->
+          <div class="evaluation-section">
+            <h3>Weaknesses</h3>
+            <ul>
+              <li *ngFor="let w of parsedEvaluate.summary_evaluation.weaknesses">
+                {{ w }}
+              </li>
+            </ul>
           </div>
 
-          <mat-divider *ngIf="!last"></mat-divider>
-        </div>
-      </mat-card-content>
-    </mat-card>
+          <!-- OVERALL ANALYSIS -->
+          <div class="analysis-box">
+            <div>
+              <strong>Technical Depth:</strong>
+              {{ parsedEvaluate.overall_analysis.technical_depth }}
+            </div>
+            <div>
+              <strong>Consistency:</strong>
+              {{ parsedEvaluate.overall_analysis.consistency_score }}
+            </div>
+            <div>
+              <strong>Communication:</strong>
+              {{ parsedEvaluate.overall_analysis.communication_clarity }}
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
 
-    <!-- ARTICLES -->
-    <mat-card class="content-card">
-      <mat-card-header>
-        <mat-card-title class="card-title">
-          <mat-icon>article</mat-icon>
-          Recommended Articles
-        </mat-card-title>
-      </mat-card-header>
-      <mat-divider></mat-divider>
-      <mat-card-content>
-        <div class="articles-grid">
-          <mat-card
-            class="article-card"
-            *ngFor="let article of session.article_recommendations; let i = index"
-          >
-            <mat-card-content>
-              <span class="article-number">{{ i + 1 }}</span>
-              <a [href]="article.url" target="_blank" class="article-link">
-                <h3>{{ article.title }}</h3>
-              </a>
-              <mat-chip>
-                <mat-icon matChipAvatar>language</mat-icon>
-                {{ getDomain(article.url) }}
-              </mat-chip>
-            </mat-card-content>
-            <mat-card-actions>
-              <a mat-button color="primary" [href]="article.url" target="_blank">
-                <mat-icon>open_in_new</mat-icon>
-                Read Article
-              </a>
-            </mat-card-actions>
-          </mat-card>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </ng-container>
+      <!-- KEYWORDS -->
+      <mat-card class="content-card">
+        <mat-card-header>
+          <mat-card-title class="card-title">
+            <mat-icon>label</mat-icon>
+            Keywords
+          </mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <mat-chip-set>
+            <mat-chip *ngFor="let k of session.keywords">{{ k.name }}</mat-chip>
+          </mat-chip-set>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- QUESTIONS -->
+      <!-- QUESTIONS & ANSWERS -->
+      <mat-card class="content-card">
+        <mat-card-header>
+          <mat-card-title class="card-title">
+            <mat-icon>question_answer</mat-icon>
+            Questions & Answers
+          </mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+
+        <mat-card-content>
+          <div class="qa-item" *ngFor="let q of session.questions; let i = index">
+            <div class="qa-question">
+              <span class="question-number">{{ i + 1 }}</span>
+              <p>{{ q.content }}</p>
+            </div>
+
+            <div class="qa-answer" *ngIf="q.answer">
+              <strong>Candidate Answer:</strong>
+              <p>{{ q.answer.answer }}</p>
+            </div>
+
+            <mat-divider></mat-divider>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- SKILL GAPS -->
+      <mat-card class="content-card">
+        <mat-card-header>
+          <mat-card-title class="card-title">
+            <mat-icon>psychology</mat-icon>
+            Skill Gaps & Learning Recommendations
+          </mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="skill-gap-item" *ngFor="let gap of session.skill_gaps; let last = last">
+            <h3 class="skill-keyword">{{ gap.learning_keyword }}</h3>
+
+            <div class="gap-section">
+              <strong>Gap:</strong>
+              <p>{{ gap.skill_gap }}</p>
+            </div>
+
+            <div class="gap-section">
+              <strong>Why it matters:</strong>
+              <p>{{ gap.why_it_matters }}</p>
+            </div>
+
+            <div class="gap-section">
+              <strong>Recommended resources:</strong>
+              <mat-chip-set>
+                <mat-chip *ngFor="let resource of gap.resource_types">
+                  <mat-icon matChipAvatar>
+                    {{ resource.resource_type === 'Course' ? 'video_library' : 'article' }}
+                  </mat-icon>
+                  {{ resource.resource_type }}
+                </mat-chip>
+              </mat-chip-set>
+            </div>
+
+            <mat-divider *ngIf="!last"></mat-divider>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- ARTICLES -->
+      <mat-card class="content-card">
+        <mat-card-header>
+          <mat-card-title class="card-title">
+            <mat-icon>article</mat-icon>
+            Recommended Articles
+          </mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="articles-grid">
+            <mat-card
+              class="article-card"
+              *ngFor="let article of session.article_recommendations; let i = index"
+            >
+              <mat-card-content>
+                <span class="article-number">{{ i + 1 }}</span>
+                <a [href]="article.url" target="_blank" class="article-link">
+                  <h3>{{ article.title }}</h3>
+                </a>
+                <mat-chip>
+                  <mat-icon matChipAvatar>language</mat-icon>
+                  {{ getDomain(article.url) }}
+                </mat-chip>
+              </mat-card-content>
+              <mat-card-actions>
+                <a mat-button color="primary" [href]="article.url" target="_blank">
+                  <mat-icon>open_in_new</mat-icon>
+                  Read Article
+                </a>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+  </div>
 </div>

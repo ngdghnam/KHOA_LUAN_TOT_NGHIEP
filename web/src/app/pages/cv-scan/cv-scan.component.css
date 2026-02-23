@@ -232,3 +232,12 @@
     }
   }
 }
+
+.template-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  padding-right: 12px;
+}

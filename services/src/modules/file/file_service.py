@@ -3,12 +3,13 @@ from fastapi import HTTPException, UploadFile, status, Depends
 from src.utils.file_util import FileUtil
 from .file_scan_service import FileScanService
 from ..formatter.cv_formatter import FlexibleCVParser
-from src.utils.n8n_util import post_data
+from src.utils.n8n_util import post_data, get_summarize_and_questions
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.entities.media_file_entity import MediaFileEntity
 from src.entities.cv_analysis_session_entity import CvAnalysisSessionEntity
 from src.depends.depends import get_session
-from sqlalchemy import select
+from sqlalchemy import select, delete
+from src.entities.question_entity import QuestionEntity
 
 class FileService: 
     def __init__(self) -> None:
@@ -81,15 +82,16 @@ class FileService:
             filename=object_name
         )
 
-        # FIND FILE ID
+        # FIND FILE
         dataFile = await session.scalar(
             select(MediaFileEntity)
             .where(MediaFileEntity.name == object_name)
         )
 
-        # CREATE NEW SESSION
+        # CREATE EMPTY SESSION FIRST
         new_session = CvAnalysisSessionEntity(
-            cv_file_id= dataFile.id
+            cv_file_id=dataFile.id,
+            summary=None  # chưa có summary
         )
         session.add(new_session)
         await session.commit()
@@ -97,6 +99,7 @@ class FileService:
 
         print("new_session", new_session.id)
 
+        # NOW YOU CAN USE ID
         n8nData = {
             "summary": text,
             "session_id": str(new_session.id)
@@ -104,11 +107,38 @@ class FileService:
 
         print("data to post", n8nData)
 
-        post_data(n8nData)
+        # GEN QUESTIONS FROM N8N
+        res = get_summarize_and_questions(n8nData)
+
+        questions = res[0]["questions"]
+        summarize = res[0]["summarize"]
+
+        # UPDATE SUMMARY
+        new_session.summary = summarize
+        await session.commit()
+
+        # DELETE OLD QUESTIONS (optional, usually not needed here)
+        await session.execute(
+            delete(QuestionEntity)
+            .where(QuestionEntity.session_id == new_session.id)
+        )
+
+        # INSERT NEW QUESTIONS
+        new_questions = [
+            QuestionEntity(
+                session_id=new_session.id,
+                content=q,
+                order_index=index
+            )
+            for index, q in enumerate(questions)
+        ]
+
+        session.add_all(new_questions)
+        await session.commit()
 
         return {
             "object_name": object_name,
             "raw_text": text,
             "counts": len(text),
-            "session_id": str(new_session.id)
+            "session_id": str(new_session.id),
         }
